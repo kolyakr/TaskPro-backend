@@ -1,8 +1,14 @@
-import express from 'express';
+import createHttpError from 'http-errors';
+import { initMongoConnection } from './db/initMongoConnection.js';
+import { startServer } from './server.js';
 
-const app = express();
+const bootstrap = async () => {
+  try {
+    await initMongoConnection();
+    startServer();
+  } catch (err) {
+    throw createHttpError(500, 'Error with bootstrap');
+  }
+};
 
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Server is listening on port ${PORT}`);
-});
+bootstrap();

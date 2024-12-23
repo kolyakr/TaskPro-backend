@@ -1,0 +1,29 @@
+import express from 'express';
+import { env } from './utils/env.js';
+import cors from 'cors';
+import pino from 'pino-http';
+import { notFound } from './middlewares/notFound.js';
+import { errorHandler } from './middlewares/errorHandler.js';
+import { ENV } from './constants.js';
+
+export const startServer = () => {
+  const app = express();
+
+  app.use(express.json());
+  app.use(cors());
+  app.use(
+    pino({
+      transport: {
+        target: 'pino-pretty',
+      },
+    }),
+  );
+
+  app.use(notFound);
+  app.use(errorHandler);
+
+  const PORT = env(ENV.PORT, 3000);
+  app.listen(PORT, () => {
+    console.log(`Server is listening on port ${PORT}`);
+  });
+};
