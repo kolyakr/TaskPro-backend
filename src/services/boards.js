@@ -13,6 +13,8 @@ export const getBoardById = async (id) => {
 };
 
 export const deleteBoard = async (id) => {
+  //YOU MUST ALSO DELETE <- COLUMNS <- CARDS
+
   return await Board.deleteOne({ _id: id });
 };
 

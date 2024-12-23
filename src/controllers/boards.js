@@ -47,7 +47,7 @@ export const deleteBoardController = async (req, res) => {
   const { boardId } = req.params;
   const result = await deleteBoard(boardId);
 
-  if (!result) {
+  if (!result || result.deletedCount === 0) {
     throw createHttpError(404, 'Borad not found');
   }
 
