@@ -5,6 +5,7 @@ import pino from 'pino-http';
 import { notFound } from './middlewares/notFound.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { ENV } from './constants.js';
+import { rootRouter } from './routes/index.js';
 
 export const startServer = () => {
   const app = express();
@@ -18,6 +19,8 @@ export const startServer = () => {
       },
     }),
   );
+
+  app.use(rootRouter);
 
   app.use(notFound);
   app.use(errorHandler);
