@@ -6,6 +6,7 @@ import { notFound } from './middlewares/notFound.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { ENV } from './constants.js';
 import { rootRouter } from './routes/index.js';
+import cookieParser from 'cookie-parser';
 
 export const startServer = () => {
   const app = express();
@@ -19,6 +20,7 @@ export const startServer = () => {
       },
     }),
   );
+  app.use(cookieParser());
 
   app.use(rootRouter);
 
