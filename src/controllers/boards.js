@@ -1,6 +1,7 @@
 import createHttpError from 'http-errors';
 import {
   createBoard,
+  deleteBoard,
   getBoardById,
   getBoards,
   updateBoard,
@@ -31,10 +32,6 @@ export const getBoardByIdController = async (req, res) => {
   const { boardId } = req.params;
   const board = await getBoardById(boardId);
 
-  if (!board) {
-    throw createHttpError(404, 'Board not found');
-  }
-
   res.json({
     status: 200,
     message: 'Board was successfully got',
@@ -47,7 +44,7 @@ export const deleteBoardController = async (req, res) => {
   const result = await deleteBoard(boardId);
 
   if (!result || result.deletedCount === 0) {
-    throw createHttpError(404, 'Borad not found');
+    throw createHttpError(404, 'Board not found');
   }
 
   res.json({

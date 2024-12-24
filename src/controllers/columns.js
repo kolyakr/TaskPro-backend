@@ -1,6 +1,7 @@
 import createHttpError from 'http-errors';
 import {
   createColumn,
+  deleteColumn,
   getColumnById,
   getColumns,
   updateColumn,
@@ -19,10 +20,6 @@ export const getColumnsController = async (req, res) => {
 export const getColumnByIdController = async (req, res) => {
   const { columnId } = req.params;
   const column = await getColumnById(columnId);
-
-  if (!column) {
-    throw createHttpError(404, 'Column not found');
-  }
 
   res.json({
     status: 200,
@@ -49,8 +46,6 @@ export const deleteColumnController = async (req, res) => {
   if (!result || result.deletedCount === 0) {
     throw createHttpError(404, 'Column not found');
   }
-
-  //DELETE MUST DELETE ALL TASKS EXACTLY
 
   res.json({
     status: 204,
