@@ -1,7 +1,6 @@
 import createHttpError from 'http-errors';
 import {
   createBoard,
-  deleteBoard,
   getBoardById,
   getBoards,
   updateBoard,

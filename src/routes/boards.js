@@ -25,7 +25,7 @@ boardsRouter.post(
 
 boardsRouter.get('/:boardId', ctrlWrapper(getBoardByIdController));
 
-boardsRouter.delete('/:boardId', ctrlWrapper(deleteBoardController));
+// boardsRouter.delete('/:boardId', ctrlWrapper(deleteBoardController));
 
 boardsRouter.patch(
   '/:boardId',

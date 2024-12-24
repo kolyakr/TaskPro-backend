@@ -1,7 +1,6 @@
 import createHttpError from 'http-errors';
 import {
   createColumn,
-  deleteColumn,
   getColumnById,
   getColumns,
   updateColumn,

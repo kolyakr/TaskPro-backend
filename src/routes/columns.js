@@ -25,7 +25,7 @@ columnsRouter.post(
   ctrlWrapper(createColumnController),
 );
 
-columnsRouter.delete('/:columnId', ctrlWrapper(deleteColumnController));
+// columnsRouter.delete('/:columnId', ctrlWrapper(deleteColumnController));
 
 columnsRouter.patch(
   '/:columnId',

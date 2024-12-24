@@ -1,4 +1,5 @@
 import { Board } from '../db/models/Board.js';
+import { Column } from '../db/models/Column.js';
 
 export const getBoards = async () => {
   return await Board.find({});
@@ -12,11 +13,10 @@ export const getBoardById = async (id) => {
   return await Board.findById({ _id: id });
 };
 
-export const deleteBoard = async (id) => {
-  //YOU MUST ALSO DELETE <- COLUMNS <- CARDS
+// export const deleteBoard = async (id) => {
 
-  return await Board.deleteOne({ _id: id });
-};
+//   return await Board.deleteOne({ _id: id });
+// };
 
 export const updateBoard = async (payload, id) => {
   return await Board.findOneAndUpdate({ _id: id }, payload, {

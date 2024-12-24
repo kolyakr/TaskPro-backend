@@ -25,11 +25,18 @@ export const createColumn = async (payload) => {
   return await Column.create(payload);
 };
 
-export const deleteColumn = async (id) => {
-  return await Column.deleteOne({
-    _id: id,
-  });
-};
+// export const deleteColumn = async (id, options) => {
+
+//   //delete all cards
+
+//   if(options?.isBoardId){
+//     await
+//   }
+
+//   return await Column.deleteOne({
+//     _id: id,
+//   });
+// };
 
 export const updateColumn = async (title, id) => {
   return await Column.findOneAndUpdate(
