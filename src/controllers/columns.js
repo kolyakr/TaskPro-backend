@@ -8,7 +8,8 @@ import {
 } from '../services/columns.js';
 
 export const getColumnsController = async (req, res) => {
-  const columns = await getColumns();
+  const filtersParams = req.query;
+  const columns = await getColumns(filtersParams);
 
   res.json({
     status: 200,

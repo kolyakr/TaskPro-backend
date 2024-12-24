@@ -3,8 +3,11 @@ import { Board } from '../db/models/Board.js';
 import { Column } from '../db/models/Column.js';
 import createHttpError from 'http-errors';
 import { Card } from '../db/models/Card.js';
+import { parseColumnFilterParams } from '../utils/parseColumnFilterParams.js';
 
 export const getColumns = async (filtersParams) => {
+  filtersParams = parseColumnFilterParams(filtersParams);
+
   let columns;
   if (filtersParams?.boardId) {
     columns = await Column.find({
@@ -16,7 +19,18 @@ export const getColumns = async (filtersParams) => {
 
   const columnsArray = await Promise.all(
     columns.map(async (column) => {
-      const cards = await Card.find({ columnId: column._id });
+      let cards;
+      if (filtersParams?.priority) {
+        cards = await Card.find({
+          columnId: column._id,
+          priority: filtersParams.priority,
+        });
+      } else {
+        cards = await Card.find({
+          columnId: column._id,
+        });
+      }
+
       return {
         ...column._doc,
         cards: cards || [],
