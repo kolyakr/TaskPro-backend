@@ -5,6 +5,7 @@ import {
   refreshSession,
   registerUser,
 } from '../services/auth.js';
+import { saveToCloudinary } from '../utils/saveToCloudinary.js';
 
 const clearCookies = (res) => {
   res.clearCookie('sessionId');
@@ -23,7 +24,22 @@ const setCookies = (res, session) => {
 };
 
 export const registerUserController = async (req, res) => {
-  const payload = req.body;
+  const file = req?.file;
+
+  let avatar = null;
+  if (file) {
+    avatar = await saveToCloudinary(file);
+  }
+
+  let payload = req.body;
+
+  if (avatar) {
+    payload = {
+      ...payload,
+      avatar: avatar,
+    };
+  }
+
   const user = await registerUser(payload);
 
   res.json({
@@ -81,3 +97,7 @@ export const refreshSessionController = async (req, res) => {
     },
   });
 };
+
+// export const editUserProfile = async (req, res) => {
+
+// }

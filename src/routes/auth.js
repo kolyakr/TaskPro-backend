@@ -9,11 +9,13 @@ import {
 import { validateBody } from '../middlewares/validateBody.js';
 import { registerUserSchema } from '../validations/registerUserSchema.js';
 import { loginUserSchema } from '../validations/loginUserSchema.js';
+import { upload } from '../middlewares/upload.js';
 
 export const authRouter = Router();
 
 authRouter.post(
   '/register',
+  upload.single('avatar'),
   validateBody(registerUserSchema),
   ctrlWrapper(registerUserController),
 );
