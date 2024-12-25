@@ -9,6 +9,11 @@ export const ENV = {
   CLOUD_NAME: 'CLOUD_NAME',
   CLOUD_SECRET: 'CLOUD_SECRET',
   CLOUD_KEY: 'CLOUD_KEY',
+  MAIL_USER: 'MAIL_USER',
+  MAIL_PASS: 'MAIL_PASS',
+  MAIL_HOST: 'MAIL_HOST',
+  MAIL_PORT: 'MAIL_PORT',
+  MAIL_FROM: 'MAIL_FROM',
 };
 
 export const priorities = {
