@@ -10,10 +10,12 @@ import {
 import { validateBody } from '../middlewares/validateBody.js';
 import { validateMongoId } from '../middlewares/validateMongoId.js';
 import { createAndUpdateBoardSchema } from '../validations/createAndUpdateBoardSchema.js';
+import { authorization } from '../middlewares/authorization.js';
 
 export const boardsRouter = Router();
 
 boardsRouter.use('/:boardId', validateMongoId('boardId'));
+boardsRouter.use(authorization);
 
 boardsRouter.get('/', ctrlWrapper(getBoardsController));
 

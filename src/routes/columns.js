@@ -11,9 +11,11 @@ import { validateMongoId } from '../middlewares/validateMongoId.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { createColumnSchema } from '../validations/createColumnSchema.js';
 import { updateColumnSchema } from '../validations/updateColumnSchema.js';
+import { authorization } from '../middlewares/authorization.js';
 
 export const columnsRouter = Router();
 columnsRouter.use('/:columnId', validateMongoId('columnId'));
+columnsRouter.use(authorization);
 
 columnsRouter.get('/', ctrlWrapper(getColumnsController));
 
