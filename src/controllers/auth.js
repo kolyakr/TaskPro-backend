@@ -4,6 +4,7 @@ import {
   logoutUser,
   refreshSession,
   registerUser,
+  updateUserProfile,
 } from '../services/auth.js';
 import { saveToCloudinary } from '../utils/saveToCloudinary.js';
 
@@ -24,12 +25,7 @@ const setCookies = (res, session) => {
 };
 
 export const registerUserController = async (req, res) => {
-  const file = req?.file;
-
-  let avatar = null;
-  if (file) {
-    avatar = await saveToCloudinary(file);
-  }
+  const avatar = await saveToCloudinary(req);
 
   let payload = req.body;
 
@@ -98,6 +94,25 @@ export const refreshSessionController = async (req, res) => {
   });
 };
 
-// export const editUserProfile = async (req, res) => {
+export const updateUserProfileController = async (req, res) => {
+  const avatar = await saveToCloudinary(req);
+  let payload = req.body || {};
 
-// }
+  if (avatar) {
+    payload = {
+      ...payload,
+      avatar: avatar,
+    };
+  }
+
+  const { user } = req;
+
+  const updatedUser = await updateUserProfile(payload, user._id);
+  const { password, ...updatedUserData } = updatedUser._doc;
+
+  res.json({
+    status: 200,
+    message: 'User profile successfully updated',
+    data: updatedUserData,
+  });
+};

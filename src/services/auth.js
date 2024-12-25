@@ -102,3 +102,15 @@ export const refreshSession = async (sessionToken, sessionId) => {
     refreshTokenValidUntill: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
   });
 };
+
+export const updateUserProfile = async (payload, userId) => {
+  return await User.findOneAndUpdate(
+    {
+      _id: userId,
+    },
+    payload,
+    {
+      new: true,
+    },
+  );
+};
