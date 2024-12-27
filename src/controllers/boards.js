@@ -8,7 +8,8 @@ import {
 } from '../services/boards.js';
 
 export const getBoardsController = async (req, res) => {
-  const boards = await getBoards();
+  const user = req.user;
+  const boards = await getBoards(user);
 
   res.json({
     status: 200,
@@ -19,7 +20,9 @@ export const getBoardsController = async (req, res) => {
 
 export const createBoardController = async (req, res) => {
   const { body } = req;
-  const board = await createBoard(body);
+  const user = req.user;
+  const payload = { ...body, userId: user._id };
+  const board = await createBoard(payload);
 
   res.json({
     status: 201,
@@ -30,7 +33,8 @@ export const createBoardController = async (req, res) => {
 
 export const getBoardByIdController = async (req, res) => {
   const { boardId } = req.params;
-  const board = await getBoardById(boardId);
+  const user = req.user;
+  const board = await getBoardById(boardId, user);
 
   res.json({
     status: 200,
@@ -41,7 +45,8 @@ export const getBoardByIdController = async (req, res) => {
 
 export const deleteBoardController = async (req, res) => {
   const { boardId } = req.params;
-  const result = await deleteBoard(boardId);
+  const user = req.user;
+  const result = await deleteBoard(boardId, user);
 
   if (!result || result.deletedCount === 0) {
     throw createHttpError(404, 'Board not found');
@@ -56,8 +61,9 @@ export const deleteBoardController = async (req, res) => {
 export const updateBoardController = async (req, res) => {
   const { body } = req;
   const { boardId } = req.params;
+  const user = req.user;
 
-  const board = await updateBoard(body, boardId);
+  const board = await updateBoard(body, boardId, user);
 
   if (!board) {
     throw createHttpError(404, 'Board not found');

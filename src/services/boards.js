@@ -4,8 +4,10 @@ import { Card } from '../db/models/Card.js';
 import { Column } from '../db/models/Column.js';
 import { deleteColumn, getColumns } from './columns.js';
 
-export const getBoards = async () => {
-  const boards = await Board.find({});
+export const getBoards = async (user) => {
+  const boards = await Board.find({
+    userId: user._id,
+  });
 
   const boardArray = await Promise.all(
     boards.map(async (board) => {
@@ -28,8 +30,11 @@ export const createBoard = async (payload) => {
   return await Board.create(payload);
 };
 
-export const getBoardById = async (id) => {
-  const board = await Board.findById(id);
+export const getBoardById = async (id, user) => {
+  const board = await Board.findOne({
+    _id: id,
+    userId: user._id,
+  });
 
   if (!board) {
     throw createHttpError(404, 'Board not found');
@@ -47,7 +52,16 @@ export const getBoardById = async (id) => {
   };
 };
 
-export const deleteBoard = async (id) => {
+export const deleteBoard = async (id, user) => {
+  const isBoardExist = await Board.findOne({
+    _id: id,
+    userId: user._id,
+  });
+
+  if (!isBoardExist) {
+    throw createHttpError(404, 'Board not found');
+  }
+
   const columns = await Column.find({ boardId: id });
   columns.map(async (column) => {
     await deleteColumn(column._id);
@@ -56,8 +70,8 @@ export const deleteBoard = async (id) => {
   return await Board.deleteOne({ _id: id });
 };
 
-export const updateBoard = async (payload, id) => {
-  return await Board.findOneAndUpdate({ _id: id }, payload, {
+export const updateBoard = async (payload, id, user) => {
+  return await Board.findOneAndUpdate({ _id: id, userId: user._id }, payload, {
     new: true,
   });
 };
