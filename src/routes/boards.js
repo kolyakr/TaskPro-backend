@@ -9,8 +9,9 @@ import {
 } from '../controllers/boards.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { validateMongoId } from '../middlewares/validateMongoId.js';
-import { createAndUpdateBoardSchema } from '../validations/createAndUpdateBoardSchema.js';
 import { authorization } from '../middlewares/authorization.js';
+import { createBoardSchema } from '../validations/createBoardSchema.js';
+import { updateBoardSchema } from '../validations/updateBoardSchema.js';
 
 export const boardsRouter = Router();
 
@@ -21,7 +22,7 @@ boardsRouter.get('/', ctrlWrapper(getBoardsController));
 
 boardsRouter.post(
   '/',
-  validateBody(createAndUpdateBoardSchema),
+  validateBody(createBoardSchema),
   ctrlWrapper(createBoardController),
 );
 
@@ -31,6 +32,6 @@ boardsRouter.delete('/:boardId', ctrlWrapper(deleteBoardController));
 
 boardsRouter.patch(
   '/:boardId',
-  validateBody(createAndUpdateBoardSchema),
+  validateBody(updateBoardSchema),
   ctrlWrapper(updateBoardController),
 );
