@@ -1,10 +1,8 @@
-import createHttpError from 'http-errors';
 import {
   loginUser,
   logoutUser,
   refreshSession,
   registerUser,
-  updateUserProfile,
 } from '../services/auth.js';
 import { saveToCloudinary } from '../utils/saveToCloudinary.js';
 
@@ -47,7 +45,7 @@ export const registerUserController = async (req, res) => {
 
 export const loginUserController = async (req, res) => {
   const payload = req.body;
-  const session = await loginUser(payload);
+  const { session, user } = await loginUser(payload);
 
   clearCookies(res);
   setCookies(res, session);
@@ -56,6 +54,12 @@ export const loginUserController = async (req, res) => {
     status: 200,
     messsage: 'User was successfully logined',
     data: {
+      user: {
+        name: user.name,
+        email: user.email,
+        theme: user.theme,
+        avatar: user?.avatar,
+      },
       accessToken: session.accessToken,
     },
   });
@@ -91,28 +95,5 @@ export const refreshSessionController = async (req, res) => {
     data: {
       accessToken: session.accessToken,
     },
-  });
-};
-
-export const updateUserProfileController = async (req, res) => {
-  const avatar = await saveToCloudinary(req);
-  let payload = req.body || {};
-
-  if (avatar) {
-    payload = {
-      ...payload,
-      avatar: avatar,
-    };
-  }
-
-  const { user } = req;
-
-  const updatedUser = await updateUserProfile(payload, user._id);
-  const { password, ...updatedUserData } = updatedUser._doc;
-
-  res.json({
-    status: 200,
-    message: 'User profile successfully updated',
-    data: updatedUserData,
   });
 };

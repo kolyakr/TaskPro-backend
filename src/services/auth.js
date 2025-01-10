@@ -2,7 +2,7 @@ import createHttpError from 'http-errors';
 import { User } from '../db/models/User.js';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
-import { Session, SessionSchema } from '../db/models/Session.js';
+import { Session } from '../db/models/Session.js';
 
 export const registerUser = async (payload) => {
   const isUserExists = await User.findOne({
@@ -52,7 +52,7 @@ export const loginUser = async ({ password, email }) => {
     refreshTokenValidUntill: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
   });
 
-  return session;
+  return { session, user };
 };
 
 export const logoutUser = async (sessionToken, sessionId) => {
@@ -101,16 +101,4 @@ export const refreshSession = async (sessionToken, sessionId) => {
     accessTokenValidUntill: new Date(Date.now() + 1000 * 60 * 15),
     refreshTokenValidUntill: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
   });
-};
-
-export const updateUserProfile = async (payload, userId) => {
-  return await User.findOneAndUpdate(
-    {
-      _id: userId,
-    },
-    payload,
-    {
-      new: true,
-    },
-  );
 };

@@ -4,6 +4,11 @@ import { User } from '../db/models/User.js';
 
 export const authorization = async (req, res, next) => {
   const bearerToken = req.headers.authorization;
+  console.log('bearerToken: ', bearerToken);
+
+  if (!bearerToken) {
+    next(createHttpError(400, 'Token not exist or invalid'));
+  }
 
   const [bearer, token] = bearerToken.split(' ');
 
@@ -19,7 +24,7 @@ export const authorization = async (req, res, next) => {
     return next(createHttpError(404, 'Session not found'));
   }
 
-  if (Date.now() > session.accessToken) {
+  if (Date.now() > session.accessTokenValidUntill) {
     return next(createHttpError(401, 'Token is expired'));
   }
 

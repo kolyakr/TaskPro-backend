@@ -6,6 +6,7 @@ import {
   getBoards,
   updateBoard,
 } from '../services/boards.js';
+import { getColumns } from '../services/columns.js';
 
 export const getBoardsController = async (req, res) => {
   const user = req.user;
@@ -14,7 +15,9 @@ export const getBoardsController = async (req, res) => {
   res.json({
     status: 200,
     message: 'Boards successfully got',
-    data: boards,
+    data: {
+      boards: boards,
+    },
   });
 };
 
@@ -72,6 +75,8 @@ export const updateBoardController = async (req, res) => {
   res.json({
     status: 200,
     message: 'Board successfully updated',
-    data: board,
+    data: {
+      board: board,
+    },
   });
 };

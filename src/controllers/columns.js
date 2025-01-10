@@ -36,7 +36,9 @@ export const createColumnController = async (req, res) => {
   res.json({
     status: 200,
     message: 'Column succesfully created',
-    data: column,
+    data: {
+      column,
+    },
   });
 };
 

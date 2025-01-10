@@ -32,7 +32,8 @@ export const getColumns = async (filtersParams) => {
       }
 
       return {
-        ...column._doc,
+        columnId: column._id,
+        title: column.title,
         cards: cards || [],
       };
     }),
@@ -69,7 +70,13 @@ export const createColumn = async (payload) => {
     throw createHttpError(404, `Board ${payload.boardId} doesn't  exist`);
   }
 
-  return await Column.create(payload);
+  const column = await Column.create(payload);
+
+  return {
+    columnId: column._id,
+    title: column.title,
+    cards: [],
+  };
 };
 
 export const deleteColumn = async (id) => {

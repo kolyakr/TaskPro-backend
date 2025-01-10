@@ -17,7 +17,10 @@ export const getBoards = async (user) => {
       const columns = await getColumns(filtersParams);
 
       return {
-        ...board._doc,
+        boardId: board._id,
+        title: board.title,
+        icon: board.icon,
+        background: board.background,
         columns: columns || [],
       };
     }),
@@ -71,7 +74,23 @@ export const deleteBoard = async (id, user) => {
 };
 
 export const updateBoard = async (payload, id, user) => {
-  return await Board.findOneAndUpdate({ _id: id, userId: user._id }, payload, {
-    new: true,
+  const board = await Board.findOneAndUpdate(
+    { _id: id, userId: user._id },
+    payload,
+    {
+      new: true,
+    },
+  );
+
+  const columns = await getColumns({
+    boardId: board._id,
   });
+
+  return {
+    boardId: board._id,
+    title: board.title,
+    icon: board.icon,
+    background: board.background,
+    columns: columns || [],
+  };
 };
