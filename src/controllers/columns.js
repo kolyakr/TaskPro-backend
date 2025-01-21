@@ -61,7 +61,7 @@ export const updateColumnController = async (req, res) => {
   const { body } = req;
   const { columnId } = req.params;
 
-  const column = await updateColumn(body.title, columnId);
+  const column = await updateColumn(body, columnId);
 
   if (!column) {
     throw createHttpError(404, 'Column not found');
@@ -70,6 +70,8 @@ export const updateColumnController = async (req, res) => {
   res.json({
     status: 200,
     message: 'Column was successfully updated',
-    data: column,
+    data: {
+      column: column,
+    },
   });
 };

@@ -24,7 +24,9 @@ export const createCardController = async (req, res) => {
   res.json({
     status: 201,
     message: 'Card was successfully created',
-    data: card,
+    data: {
+      card: card,
+    },
   });
 };
 
@@ -71,6 +73,8 @@ export const updateCardController = async (req, res) => {
   res.json({
     status: 200,
     message: 'Card was successfully updated',
-    data: card,
+    data: {
+      card: card,
+    },
   });
 };

@@ -11,14 +11,21 @@ export const createCard = async (payload) => {
   if (!isValidObjectId(payload.columnId)) {
     throw createHttpError(401, 'Column id is invalid');
   }
-
   const isColumnExists = await Column.findById(payload.columnId);
 
   if (!isColumnExists) {
     throw createHttpError(404, 'Column not found');
   }
 
-  return await Card.create(payload);
+  const card = await Card.create(payload);
+
+  return {
+    cardId: card._id,
+    title: card.title,
+    description: card.description,
+    priority: card.priority,
+    deadline: card.deadline,
+  };
 };
 
 export const getCardById = async (id) => {
@@ -34,7 +41,15 @@ export const deleteCard = async (id) => {
 };
 
 export const updateCard = async (id, payload) => {
-  return await Card.findOneAndUpdate({ _id: id }, payload, {
+  const card = await Card.findOneAndUpdate({ _id: id }, payload, {
     new: true,
   });
+
+  return {
+    cardId: card._id,
+    title: card.title,
+    description: card.description,
+    priority: card.priority,
+    deadline: card.deadline,
+  };
 };

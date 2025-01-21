@@ -31,6 +31,16 @@ export const getColumns = async (filtersParams) => {
         });
       }
 
+      cards = cards.map((card) => {
+        return {
+          cardId: card._id,
+          title: card.title,
+          description: card.description,
+          priority: card.priority,
+          deadline: card.deadline,
+        };
+      });
+
       return {
         columnId: column._id,
         title: column.title,
@@ -89,12 +99,22 @@ export const deleteColumn = async (id) => {
   });
 };
 
-export const updateColumn = async (title, id) => {
-  return await Column.findOneAndUpdate(
-    { _id: id },
-    { title: title },
-    {
-      new: true,
-    },
-  );
+export const updateColumn = async (payload, id) => {
+  const column = await Column.findOneAndUpdate({ _id: id }, payload, {
+    new: true,
+  });
+
+  if (!column) {
+    throw createHttpError(401, 'Failed to update column');
+  }
+
+  const cards = await Card.find({
+    columnId: column._id,
+  });
+
+  return {
+    columnId: column._id,
+    title: column.title,
+    cards: column.cards || [],
+  };
 };

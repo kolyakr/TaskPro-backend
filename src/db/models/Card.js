@@ -5,7 +5,7 @@ export const CardSchema = new Schema({
     type: String,
     required: true,
   },
-  descritpion: {
+  description: {
     type: String,
     reuired: true,
   },
