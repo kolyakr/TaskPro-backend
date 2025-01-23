@@ -10,7 +10,8 @@ import { getColumns } from '../services/columns.js';
 
 export const getBoardsController = async (req, res) => {
   const user = req.user;
-  const boards = await getBoards(user);
+  const filter = req.query;
+  const boards = await getBoards(user, filter);
 
   res.json({
     status: 200,

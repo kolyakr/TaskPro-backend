@@ -4,16 +4,24 @@ import { Card } from '../db/models/Card.js';
 import { Column } from '../db/models/Column.js';
 import { deleteColumn, getColumns } from './columns.js';
 
-export const getBoards = async (user) => {
+export const getBoards = async (user, filter) => {
   const boards = await Board.find({
     userId: user._id,
   });
 
   const boardArray = await Promise.all(
     boards.map(async (board) => {
-      const filtersParams = {
+      let filtersParams = {
         boardId: board._id,
       };
+
+      if (filter != {}) {
+        filtersParams = {
+          ...filtersParams,
+          priority: filter?.priority,
+        };
+      }
+
       const columns = await getColumns(filtersParams);
 
       return {
