@@ -11,12 +11,7 @@ dotenv.config();
 
 export const startServer = () => {
   const app = express();
-
   const isProduction = process.env.NODE_ENV === 'production';
-
-  const allowedOrigins = isProduction
-    ? [process.env.FRONTEND_URL_PROD]
-    : [process.env.FRONTEND_URL_DEV];
 
   app.use((req, res, next) => {
     console.log('📌 Новий запит:', req.method, req.url);
@@ -25,11 +20,38 @@ export const startServer = () => {
     next();
   });
 
+  const allowedOrigins = [
+    process.env.FRONTEND_URL_DEV,
+    process.env.FRONTEND_URL_PROD,
+  ];
+
+  app.options('*', (req, res) => {
+    res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
+    res.header(
+      'Access-Control-Allow-Methods',
+      'GET, POST, PUT, PATCH, DELETE, OPTIONS',
+    );
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.sendStatus(204);
+  });
+
   app.use(
-    pino({
-      transport: {
-        target: 'pino-pretty',
+    cors({
+      origin: (origin, callback) => {
+        console.log('🌍 CORS перевіряє Origin:', origin);
+
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          console.error('❌ Заборонений Origin:', origin);
+          callback(new Error('Not allowed by CORS'));
+        }
       },
+      credentials: true,
+      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
+      optionsSuccessStatus: 204,
     }),
   );
 
@@ -37,17 +59,10 @@ export const startServer = () => {
   app.use(express.json({ limit: '10mb' }));
 
   app.use(
-    cors({
-      origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) {
-          callback(null, true);
-        } else {
-          callback(new Error('Not allowed by CORS'));
-        }
+    pino({
+      transport: {
+        target: 'pino-pretty',
       },
-      credentials: true,
-      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-      allowedHeaders: ['Content-Type', 'Authorization'],
     }),
   );
 
