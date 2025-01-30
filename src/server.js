@@ -14,7 +14,7 @@ export const startServer = () => {
   const isProduction = process.env.NODE_ENV === 'production';
 
   app.use((req, res, next) => {
-    console.log('📌 Новий запит:', req.method, req.url);
+    console.log('📌 New request:', req.method, req.url);
     console.log('🔹 Origin:', req.headers.origin || 'N/A');
     console.log('🔹 Cookies:', req.cookies || 'N/A');
     next();
@@ -39,12 +39,12 @@ export const startServer = () => {
   app.use(
     cors({
       origin: (origin, callback) => {
-        console.log('🌍 CORS перевіряє Origin:', origin);
+        console.log('🌍 CORS checking Origin:', origin);
 
         if (!origin || allowedOrigins.includes(origin)) {
           callback(null, true);
         } else {
-          console.error('❌ Заборонений Origin:', origin);
+          console.error('❌ Forbidden Origin:', origin);
           callback(new Error('Not allowed by CORS'));
         }
       },
@@ -67,15 +67,13 @@ export const startServer = () => {
   );
 
   app.use(rootRouter);
-
   app.use(notFound);
-
   app.use(errorHandler);
 
   const PORT = process.env.PORT || 3000;
   app.listen(PORT, () => {
     console.log(
-      `🚀 Сервер працює на порту ${PORT} у режимі ${process.env.NODE_ENV}`,
+      `🚀 Server is running on port ${PORT} in ${process.env.NODE_ENV} mode`,
     );
   });
 };
