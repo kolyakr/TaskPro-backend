@@ -3,8 +3,6 @@ import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import {
   createColumnController,
   deleteColumnController,
-  getColumnByIdController,
-  getColumnsController,
   updateColumnController,
 } from '../controllers/columns.js';
 import { validateMongoId } from '../middlewares/validateMongoId.js';
@@ -16,10 +14,6 @@ import { authorization } from '../middlewares/authorization.js';
 export const columnsRouter = Router();
 columnsRouter.use('/:columnId', validateMongoId('columnId'));
 columnsRouter.use(authorization);
-
-columnsRouter.get('/', ctrlWrapper(getColumnsController));
-
-columnsRouter.get('/:columnId', ctrlWrapper(getColumnByIdController));
 
 columnsRouter.post(
   '/',

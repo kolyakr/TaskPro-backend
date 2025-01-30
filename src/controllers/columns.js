@@ -7,28 +7,6 @@ import {
   updateColumn,
 } from '../services/columns.js';
 
-export const getColumnsController = async (req, res) => {
-  const filtersParams = req.query;
-  const columns = await getColumns(filtersParams);
-
-  res.json({
-    status: 200,
-    message: 'Columns succesfully got',
-    data: columns,
-  });
-};
-
-export const getColumnByIdController = async (req, res) => {
-  const { columnId } = req.params;
-  const column = await getColumnById(columnId);
-
-  res.json({
-    status: 200,
-    message: 'Column successfully got',
-    data: column,
-  });
-};
-
 export const createColumnController = async (req, res) => {
   const { body } = req;
   const column = await createColumn(body);

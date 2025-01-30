@@ -35,18 +35,6 @@ export const createBoardController = async (req, res) => {
   });
 };
 
-export const getBoardByIdController = async (req, res) => {
-  const { boardId } = req.params;
-  const user = req.user;
-  const board = await getBoardById(boardId, user);
-
-  res.json({
-    status: 200,
-    message: 'Board was successfully got',
-    data: board,
-  });
-};
-
 export const deleteBoardController = async (req, res) => {
   const { boardId } = req.params;
   const user = req.user;

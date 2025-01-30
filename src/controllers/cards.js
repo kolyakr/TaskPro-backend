@@ -7,16 +7,6 @@ import {
   updateCard,
 } from '../services/cards.js';
 
-export const getCardsController = async (req, res) => {
-  const cards = await getCards();
-
-  res.json({
-    status: 200,
-    message: 'Cards was succeessfuly got',
-    data: cards,
-  });
-};
-
 export const createCardController = async (req, res) => {
   const { body } = req;
   const card = await createCard(body);
@@ -27,21 +17,6 @@ export const createCardController = async (req, res) => {
     data: {
       card: card,
     },
-  });
-};
-
-export const getCardByIdController = async (req, res) => {
-  const { cardId } = req.params;
-  const card = await getCardById(cardId);
-
-  if (!card) {
-    throw createHttpError(404, 'Card not found');
-  }
-
-  res.json({
-    status: 200,
-    message: 'Card was succesfully got',
-    data: card,
   });
 };
 

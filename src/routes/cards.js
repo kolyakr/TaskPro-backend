@@ -3,8 +3,6 @@ import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import {
   createCardController,
   deleteCardController,
-  getCardByIdController,
-  getCardsController,
   updateCardController,
 } from '../controllers/cards.js';
 import { validateBody } from '../middlewares/validateBody.js';
@@ -17,15 +15,11 @@ export const cardsRouter = Router();
 cardsRouter.use('/:cardId', validateMongoId('cardId'));
 cardsRouter.use(authorization);
 
-cardsRouter.get('/', ctrlWrapper(getCardsController));
-
 cardsRouter.post(
   '/',
   validateBody(createCardSchema),
   ctrlWrapper(createCardController),
 );
-
-cardsRouter.get('/:cardId', ctrlWrapper(getCardByIdController));
 
 cardsRouter.delete('/:cardId', ctrlWrapper(deleteCardController));
 

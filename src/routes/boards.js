@@ -3,7 +3,6 @@ import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import {
   createBoardController,
   deleteBoardController,
-  getBoardByIdController,
   getBoardsController,
   updateBoardController,
 } from '../controllers/boards.js';
@@ -25,8 +24,6 @@ boardsRouter.post(
   validateBody(createBoardSchema),
   ctrlWrapper(createBoardController),
 );
-
-boardsRouter.get('/:boardId', ctrlWrapper(getBoardByIdController));
 
 boardsRouter.delete('/:boardId', ctrlWrapper(deleteBoardController));
 
