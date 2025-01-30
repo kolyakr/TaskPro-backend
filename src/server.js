@@ -11,14 +11,6 @@ import cookieParser from 'cookie-parser';
 export const startServer = () => {
   const app = express();
 
-  app.use(express.json());
-  app.use(
-    cors({
-      origin:
-        'https://task-pro-frontend-awn59qxf9-kolyas-projects-0732d788.vercel.app',
-      credentials: true,
-    }),
-  );
   app.use(
     pino({
       transport: {
@@ -26,7 +18,19 @@ export const startServer = () => {
       },
     }),
   );
+
   app.use(cookieParser());
+  app.use(express.json({ limit: '10mb' }));
+
+  app.use(
+    cors({
+      origin:
+        'https://task-pro-frontend-awn59qxf9-kolyas-projects-0732d788.vercel.app',
+      credentials: true,
+      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
+    }),
+  );
 
   app.use(rootRouter);
 

@@ -7,18 +7,30 @@ import {
 import { saveToCloudinary } from '../utils/saveToCloudinary.js';
 
 const clearCookies = (res) => {
-  res.clearCookie('sessionId');
-  res.clearCookie('sessionToken');
+  res.clearCookie('sessionId', {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'None',
+  });
+  res.clearCookie('sessionToken', {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'None',
+  });
 };
 
 const setCookies = (res, session) => {
   res.cookie('sessionId', session._id, {
     expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
     httpOnly: true,
+    secure: true,
+    sameSite: 'None',
   });
   res.cookie('sessionToken', session.refreshToken, {
     expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
     httpOnly: true,
+    secure: true,
+    sameSite: 'None',
   });
 };
 
