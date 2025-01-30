@@ -211,14 +211,6 @@ TaskPro-backend/
 │
 └── node_modules/            # Dependencies
 ```
-
----
-
-## 🌍 Deployment
-
-**Backend URL:** \`https://taskpro-backend-uvko.onrender.com\`  
-**Frontend URL:** \`task-pro-frontend-ivory.vercel.app\`
-
 ---
 
 🎉 **TaskPro Backend – Manage your tasks with ease!** 🚀
