@@ -14,7 +14,8 @@ export const startServer = () => {
   app.use(express.json());
   app.use(
     cors({
-      origin: 'http://localhost:5173',
+      origin:
+        'https://task-pro-frontend-awn59qxf9-kolyas-projects-0732d788.vercel.app',
       credentials: true,
     }),
   );
