@@ -24,8 +24,7 @@ export const startServer = () => {
 
   app.use(
     cors({
-      origin:
-        'https://task-pro-frontend-awn59qxf9-kolyas-projects-0732d788.vercel.app',
+      origin: 'https://task-pro-frontend-pied.vercel.app',
       credentials: true,
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
       allowedHeaders: ['Content-Type', 'Authorization'],
