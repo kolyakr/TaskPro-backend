@@ -30,7 +30,7 @@ TaskPro Backend is a **Node.js & Express.js**-based API that provides user authe
 
 To run the project locally, follow the steps below:
 
-### 1️. Clone the repository
+### 1. Clone the repository
 
 Clone this repository to your local machine using the following command:
 
