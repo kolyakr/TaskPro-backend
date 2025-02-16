@@ -12,7 +12,6 @@ import {
 export const usersRouter = Router();
 
 usersRouter.get('/', authorization, ctrlWrapper(getUserInfoController));
-
 usersRouter.patch(
   '/update',
   authorization,
